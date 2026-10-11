@@ -1,6 +1,6 @@
-# PRD 01: Secure Learning API Foundation
+# Secure Learning API Foundation
 
-This code folder implements **only PRD 01**. It provides a FastAPI API with two synthetic tenants, three learners, two courses, approved/draft content and progress records. There is no OPA, MCP, persistent database, model, real identity provider or Istio here.
+This code folder implements **only the foundation workshop**. It provides a FastAPI API with two synthetic tenants, three learners, two courses, approved/draft content and progress records. There is no OPA, MCP, persistent database, model, real identity provider or Istio here.
 
 ## Docker Compose
 
@@ -34,7 +34,7 @@ python -m pytest
 uvicorn app.main:create_app --factory --host 127.0.0.1 --port 8220 --no-access-log
 ```
 
-The default test suite requires no external services. Docker builds use exact direct pins and the resolved dependency constraints; dependency artifact hashes and base-image digest verification belong to PRD 09, not this milestone.
+The default test suite requires no external services. Docker builds use exact direct pins and the resolved dependency constraints; dependency artifact hashes and base-image digest verification belong to the supply-chain workshop, not this milestone.
 
 ## Layers and Behavior
 
@@ -55,4 +55,4 @@ Request IDs are propagated only when they match a bounded printable identifier a
 docker compose down
 ```
 
-Cleanup touches only this Compose project; no persistent learner data or database volumes exist. State resets with each API instance. Application-layer fixture scoping is demonstrated, not production tenant isolation, cryptographic identity, mesh encryption or certification. Kubernetes, scans, SBOMs and signing are not implemented by PRD 01. Verification evidence is maintained in the parent `docs/` directory.
+Cleanup touches only this Compose project; no persistent learner data or database volumes exist. State resets with each API instance. Application-layer fixture scoping is demonstrated, not production tenant isolation, cryptographic identity, mesh encryption or certification. Kubernetes, scans, SBOMs and signing are not implemented by this foundation workshop. Verification evidence is maintained in the parent `docs/` directory.
