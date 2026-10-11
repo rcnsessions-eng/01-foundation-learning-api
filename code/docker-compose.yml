@@ -1,0 +1,42 @@
+name: zero-trust-learning-api
+services:
+  api:
+    image: zero-trust-learning-api-api:0.1.0
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "127.0.0.1:${LEARNING_PORT:-8220}:8000"
+    environment:
+      LEARNING_ENVIRONMENT: local
+      LEARNING_DEMO_CREDENTIALS_JSON: "${LEARNING_DEMO_CREDENTIALS_JSON:-}"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    cpus: 1.0
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+  checks:
+    image: zero-trust-learning-api-checks:0.1.0
+    build:
+      context: .
+      target: checks
+    profiles: [tools]
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: "${LEARNING_SUBNET:-10.218.41.0/24}"
